@@ -39,7 +39,12 @@ nav?.querySelectorAll('a').forEach((link) => {
 
 form?.addEventListener('submit', (event) => {
   event.preventDefault();
-  if (!status) return;
-  status.textContent = 'Спасибо! Я свяжусь с вами в ближайшее время.';
-  form.reset();
+  const formData = new FormData(form);
+  const name = String(formData.get('name') ?? '').trim();
+  const phone = String(formData.get('phone') ?? '').trim();
+  const subject = encodeURIComponent('Новая запись на приём');
+  const body = encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}`);
+
+  window.location.href = `mailto:appacc77@gmail.com?subject=${subject}&body=${body}`;
+  if (status) status.textContent = 'Открываем почтовое приложение для отправки заявки.';
 });
